@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CHATBOT</title>
+    <link rel="stylesheet" href="style1.css"> 
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+</head>
+<body>
+
+<button class="openChatBtn" onclick="openForm()"><img src ="bot_img.jpg" style="border-radius: 50%; height: 65px; width: 65px; border: 3px solid #006fef; "></button>
+
+
+    <div class="wrapper">
+       
+        <div class="title">CiPHER<button type="button" class="btn close" onclick="closeForm()">X</div>
+      
+      
+            <div class="form">
+                <p class = "dateTime"><span id ="datetime"></span></p>
+            <div class="bot-inbox inbox">
+                
+                    <img src ="bot_img.jpg" style="border-radius: 50%; height: 40px;width: 40px;">
+                
+                <div class="msg-header">
+                    <p>Hello there, how can I help you?</p>
+                </div>
+            </div>
+        </div>
+        <div class="typing-field">
+            <div class="input-data">
+                <input id="data" type="text" placeholder="Ask something ..." required>
+                <button id="send-btn">Send</button>
+        
+                
+            </div>
+        </div>
+
+
+
+    </div>
+        
+
+    <script>
+        $(document).ready(function(){
+
+            $("#data").keyup(function(event) {
+            if (event.keyCode === 13) {
+                $("#send-btn").click();
+            }
+        });
+
+            $("#send-btn").on("click", function(){
+                $value = $("#data").val();
+                $msg = '<div class="user-inbox inbox"><div class="msg-header"><p>'+ $value +'</p></div></div>';
+                $(".form").append($msg);
+                $("#data").val('');
+                
+                // start ajax code
+                $.ajax({
+                    url: 'message.php',
+                    type: 'POST',
+                    data: 'text='+$value,
+                    success: function(result){
+                        $replay = '<div class="bot-inbox inbox"><img src ="bot_img.jpg" style="border-radius: 50%; height: 40px;width: 40px;"><div class="msg-header"><p>'+ result +'</p></div></div>';
+                        $(".form").append($replay);
+                        // when chat goes down the scroll bar automatically comes to the bottom
+                        $(".form").scrollTop($(".form")[0].scrollHeight);
+                    }
+                });
+            });
+        });
+    </script>
+<script>
+    var dt = new Date();
+    document.getElementById("datetime").innerHTML = dt.toLocaleDateString();
+
+</script>    
+<script>
+   document .querySelector(".openChatBtn") .addEventListener("click", openForm);
+   document.querySelector(".close").addEventListener("click", closeForm);
+   function openForm() {
+      document.querySelector(".wrapper").style.display = "block";
+   }
+   function closeForm() {
+      document.querySelector(".wrapper").style.display = "none";
+   }
+</script>
+</body>
+</html>
