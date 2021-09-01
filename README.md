@@ -1,4 +1,7 @@
+(make sure that you dont change any file name)
+
 First you have to install Xampp for connecting data base file to project.
+(This chatbot also stores unanswers questions in database so that you can update it)
 
 1. In Xampp folder there will be htdocs folder, go in that d=folder.
 2. Make a new folder in it.
